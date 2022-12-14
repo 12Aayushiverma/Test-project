@@ -22,4 +22,6 @@ public class Constants {
 	public static int INVALID_EMAIL_CD = -1062;
 	
 	public static int USER_ALREADY_EXIST = -1063;
+	
+	public static String OTP_TXN_ID_KEY = "otpTxnId" ;
 }

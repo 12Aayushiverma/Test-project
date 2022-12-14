@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.example.demo2.dao.UserDao;
 import com.example.demo2.entities.UserMst;
+import com.example.demo2.model.dto.MailRequestDto;
+import com.example.demo2.model.payload.OtpPayload;
 import com.example.demo2.model.payload.UserPayload;
 import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.utils.Constants;
@@ -61,6 +63,10 @@ public class UserServiceImpl<T> implements UserService {
 			BeanUtils.copyProperties(userPayload, user);
 			log.info("UserServiceImpl::addUser()::save()");
 			userdao.save(user);
+			MailRequestDto mailReq = new MailRequestDto();
+			mailReq.setReceiverAddress(userPayload.getEmail());
+			mailReq.setSubject("Registration status");
+			mailReq.setMessage("Hey, "+ userPayload.getFirstName() + " you have been registerd successfully");
 			cmn.setMessage(Messages.SUCCESS_MSG);
 			cmn.setStatusCode(Constants.SUCCESS_CD);
 			log.info("UserServiceImpl::addUser()=== END");
@@ -124,5 +130,7 @@ public class UserServiceImpl<T> implements UserService {
 		}
 
 	}
+
+	
 
 }
