@@ -4,6 +4,7 @@ import java.security.SecureRandom;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo2.dao.OtpDao;
 import com.example.demo2.dao.UserDao;
 import com.example.demo2.entities.OtpDtls;
+import com.example.demo2.entities.UserMst;
 import com.example.demo2.model.dto.SendSmsDto;
 import com.example.demo2.model.payload.OtpPayload;
 import com.example.demo2.model.response.CommonResoponse;
@@ -34,16 +36,30 @@ public class UtilityServiceImpl<T> implements UtilityService {
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 			HashMap<String, Object> map = new HashMap<String, Object>();
-
+			String generatedOtp = null;
 			OtpDtls otpDtls = new OtpDtls();
-			otpDtls.setOtp(getOtp());
-			otpDtls.setOtpTxnId(getOtpTxnId());
-			otpDtls.setMobileNo(otpPayload.getMobileNo());
-			otpDtls.setType(otpPayload.getType());
-			otpDao.save(otpDtls);
-			
+			Optional<OtpDtls> otpOptional = this.otpDao.check(otpPayload.getMobileNo(), otpPayload.getType());
+			if (otpOptional.isPresent()) {
+				//otpOptional.get().setOtp(getOtp());
+				//otpOptional.get().setOtpTxnId(getOtpTxnId());
+				//otpDao.save(otpOptional.get());
+				generatedOtp = getOtp();
+				
+				this.otpDao.updateOtpDtls(generatedOtp, getOtpTxnId(),otpOptional.get().getId());
+				log.info("UtilityServiceImpl::update()");
+
+			}else {
+				generatedOtp = getOtp();
+				otpDtls.setOtp(generatedOtp);
+				otpDtls.setOtpTxnId(getOtpTxnId());
+				otpDtls.setMobileNo(otpPayload.getMobileNo());
+				otpDtls.setType(otpPayload.getType());
+				log.info("UtilityServiceImpl::save()");
+				otpDao.save(otpDtls);
+			}
+
 			TwilioService twilioService = new TwilioService();
-			SendSmsDto sendSmsDto = new SendSmsDto(otpPayload.getMobileNo(), Integer.parseInt(otpDtls.getOtp()));
+			SendSmsDto sendSmsDto = new SendSmsDto(otpPayload.getMobileNo(), Integer.parseInt(generatedOtp));
 			twilioService.otpSendToMobile(sendSmsDto);
 			map.put(Constants.OTP_TXN_ID_KEY, otpDtls.getOtpTxnId());
 			cmn.setMessage("OTP has been sent on your mobile number " + "XX" + otpPayload.getMobileNo().substring(2, 8)

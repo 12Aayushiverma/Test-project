@@ -1,7 +1,5 @@
 package com.example.demo2.utils;
 
-
-
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -16,7 +14,6 @@ import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.util.Properties;
-
 
 @Service
 public class MailService {

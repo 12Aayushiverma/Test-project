@@ -14,9 +14,9 @@ import javax.persistence.Table;
 public class OtpDtls {
 
 	
-	    @GeneratedValue(strategy = GenerationType.AUTO)
+	    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	    @Id
-		private int id;
+		private Integer id;
 	    
 	    @Column(name= "OTP", length = 6)
 	    private String otp;
