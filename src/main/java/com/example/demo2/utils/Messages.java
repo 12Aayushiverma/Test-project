@@ -14,4 +14,12 @@ public class Messages {
 	
 	public static String ALREADY_EXIST = "You have already registered, please login";
 	
+	public static String OTP_SUCCESS_MSG_TEMPLATE = "OTP has been sent on your mobile number {0}";
+	
+	public static String OTP_SUCCESS_MSG = "Otp has been varified successfully";
+	
+	public static String INVALID_OTP = "Invalid Otp";
+	
+	public static String OTP_REQUEST = "First request for Otp";
+	
 }

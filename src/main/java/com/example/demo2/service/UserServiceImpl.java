@@ -2,17 +2,21 @@ package com.example.demo2.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.example.demo2.dao.UserDao;
+
+import com.example.demo2.entities.UserAccessManagement;
 import com.example.demo2.entities.UserMst;
 import com.example.demo2.model.dto.MailRequestDto;
 import com.example.demo2.model.payload.OtpPayload;
 import com.example.demo2.model.payload.UserPayload;
 import com.example.demo2.model.response.CommonResoponse;
+import com.example.demo2.repositories.UserRepository;
 import com.example.demo2.utils.Constants;
 import com.example.demo2.utils.HelperClass;
 import com.example.demo2.utils.Messages;
@@ -21,7 +25,7 @@ import com.example.demo2.utils.Messages;
 public class UserServiceImpl<T> implements UserService {
 
 	@Autowired
-	private UserDao userdao;
+	private UserRepository userdao;
 
 	private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -50,6 +54,7 @@ public class UserServiceImpl<T> implements UserService {
 
 		log.info("UserServiceImpl::addUser()=== START");
 		UserMst user = new UserMst();
+		UserAccessManagement accessManagement = new UserAccessManagement();
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
@@ -61,6 +66,8 @@ public class UserServiceImpl<T> implements UserService {
 				return (T) cmn;
 			}
 			BeanUtils.copyProperties(userPayload, user);
+			accessManagement.setPassword(generatePassword());
+			user.setAccessManagement(accessManagement);
 			log.info("UserServiceImpl::addUser()::save()");
 			userdao.save(user);
 			MailRequestDto mailReq = new MailRequestDto();
@@ -131,6 +138,18 @@ public class UserServiceImpl<T> implements UserService {
 
 	}
 
+	private String generatePassword() {
+		
+		Random rnd = new Random();
+		StringBuilder sb = new StringBuilder();
+		for(int i =1; i<=7; i++) {
+			int j = rnd.nextInt(Constants.PASSWORD_HELPER.length());
+			sb.append(Constants.PASSWORD_HELPER.charAt(j));
+			
+		}
+		return sb.toString();
+		
+	}
 	
 
 }

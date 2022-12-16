@@ -19,9 +19,17 @@ public class Constants {
 
 	public static int INVALID_MOBILE_NO_CD = -1061;
 	
+	public static int INVALID_OTP = -1071;
+	
 	public static int INVALID_EMAIL_CD = -1062;
 	
 	public static int USER_ALREADY_EXIST = -1063;
 	
 	public static String OTP_TXN_ID_KEY = "otpTxnId" ;
+	
+	public static int OTP_SUCCESS_CD = 1071;
+	
+	public static int REQUEST_FOR_OTP_CD = -1064;
+	
+    public static String PASSWORD_HELPER = "abchefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$*&";
 }

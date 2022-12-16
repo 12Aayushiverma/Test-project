@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.demo2.model.payload.UserPayload;
@@ -19,12 +20,13 @@ import com.example.demo2.utils.HelperClass;
 import com.example.demo2.utils.Messages;
 
 @RestController
-public class MyController<T> {
+@RequestMapping("/user")
+public class UserController<T> {
 
 	@Autowired
 	private UserService userService;
 
-	private final static Logger log = LoggerFactory.getLogger(MyController.class);
+	private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping("/Users")
 	public ResponseEntity<T> getUsers() {
@@ -32,7 +34,7 @@ public class MyController<T> {
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
-			log.info("MyController::getUsers()::UserId = () ");
+			log.info("MyController::getUsers::getUsers() ");
 			cmn = (CommonResoponse) userService.getUsers();
 
 			log.info("MyController::getUser===END ");
@@ -45,7 +47,7 @@ public class MyController<T> {
 		}
 	}
 
-	@PostMapping("/user")
+	@PostMapping("/register")
 	public ResponseEntity<CommonResoponse> addUser(@RequestBody UserPayload user) {
 
 		log.info("MyController::addUser===START ");
@@ -66,7 +68,6 @@ public class MyController<T> {
 
 			} else if (user.getEmail() == null || !user.getEmail().matches(Constants.EMAIL_REGEX)) {
 				log.error("MyController::addUser::ERROR= {}", Messages.INVALID_EMAIL);
-
 				cmn.setMessage(Messages.INVALID_EMAIL);
 				cmn.setStatusCode(Constants.INVALID_EMAIL_CD);
 				return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
@@ -120,7 +121,7 @@ public class MyController<T> {
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
-			log.info("MyController::searchUsers()");
+			log.info("MyController::searchUser()");
 			cmn = (CommonResoponse) userService.searchUser(search);
 
 			log.info("MyController::searchUsers===END ");
@@ -136,24 +137,6 @@ public class MyController<T> {
 
 	}
 
-	public static void main(String[] args) {
-
-		System.out.println("Hello world");
-
-		String mobileNo = "919179176749";
-
-		String email = "av902800@gmail.in";
-
-		String emailRegex = "^[a-zA-Z0-9_+&*-]+(?:\\." + "[a-zA-Z0-9_+&*-]+)*@" + "(?:[a-zA-Z0-9-]+\\.)+[a-z"
-				+ "A-Z]{2,7}$";
-
-		if (email.matches(emailRegex)) {
-
-			System.out.println("valid");
-		} else {
-			System.out.println("Invalid");
-		}
-
-	}
+	
 
 }

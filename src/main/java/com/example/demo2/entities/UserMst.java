@@ -1,15 +1,15 @@
 package com.example.demo2.entities;
 
-import javax.annotation.Generated;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-
-import org.hibernate.annotations.GeneratorType;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
 @Entity
+@Table(name = "UserMst")
 public class UserMst {
     
 	
@@ -39,6 +39,9 @@ public class UserMst {
     
     
     private int age;
+    
+    @OneToOne
+    private UserAccessManagement accessManagement;
 
 
 	public int getId() {
@@ -138,6 +141,16 @@ public class UserMst {
 
 	public void setAge(int age) {
 		this.age = age;
+	}
+
+
+	public UserAccessManagement getAccessManagement() {
+		return accessManagement;
+	}
+
+
+	public void setAccessManagement(UserAccessManagement accessManagement) {
+		this.accessManagement = accessManagement;
 	}
 
 
