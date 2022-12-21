@@ -32,4 +32,15 @@ public class Constants {
 	public static int REQUEST_FOR_OTP_CD = -1064;
 	
     public static String PASSWORD_HELPER = "abchefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$*&";
+    
+    public static int INVALID_PASSWORD = -1065;
+    
+    public static int USER_NOT_EXIST = -1066;
+    
+    public static final String MAIL_HOST_KEY = "mail.smtp.host";
+    public static final String MAIL_PORT_KEY = "mail.smtp.port";
+    public static final String MAIL_AUTH_KEY = "mail.smtp.auth";
+    public static final String MAIL_DEBUG_KEY = "mail.smtp.debug";
+    public static final String MAIL_SSL_ENABLE_KEY = "mail.smtp.ssl.enable";
+    public static final String MAIL_DEBUG = "true";
 }

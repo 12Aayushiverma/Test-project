@@ -11,10 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo2.entities.OtpDtls;
+import com.example.demo2.entities.UserMst;
 import com.example.demo2.model.dto.SendSmsDto;
 import com.example.demo2.model.payload.OtpPayload;
 import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.repositories.OtpRepository;
+import com.example.demo2.repositories.UserRepository;
 import com.example.demo2.utils.Constants;
 import com.example.demo2.utils.HelperClass;
 import com.example.demo2.utils.Messages;
@@ -25,6 +27,9 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 
 	@Autowired
 	private OtpRepository otpDao;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	private final static Logger log = LoggerFactory.getLogger(UtilityServiceImpl.class);
 
@@ -38,10 +43,24 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 			String generatedOtp = null;
 			String otpTxnId = null;
 			OtpDtls otpDtls = new OtpDtls();
-			Optional<OtpDtls> otpOptional = this.otpDao.check(otpPayload.getMobileNo(), otpPayload.getType());
+			Optional<OtpDtls> otpOptional = null;
+			String mobileNo = null;
+			String email = null;
+			if (otpPayload.getType().equalsIgnoreCase("forgetPassword")) {
+				Optional<UserMst> userFromDb = this.userRepository.findByEmailOrMobileNumber(otpPayload.getId(),
+						otpPayload.getId());
+				mobileNo = userFromDb.get().getMobileNumber();
+				email = userFromDb.get().getEmail();
+				otpOptional = this.otpDao.check(userFromDb.get().getMobileNumber(), otpPayload.getType());
+			} else if (otpPayload.getType().equalsIgnoreCase("mobileAuth")) {
+				mobileNo = otpPayload.getMobileNo();
+				otpOptional = this.otpDao.check(otpPayload.getMobileNo(), otpPayload.getType());
+			}
+
 			if (otpOptional.isPresent()) {
 
 				generatedOtp = getOtp();
+
 				otpTxnId = getOtpTxnId();
 
 				this.otpDao.updateOtpDtls(generatedOtp, getOtpTxnId(), otpOptional.get().getId());
@@ -52,19 +71,19 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 				otpTxnId = getOtpTxnId();
 				otpDtls.setOtp(generatedOtp);
 				otpDtls.setOtpTxnId(otpTxnId);
-				otpDtls.setMobileNo(otpPayload.getMobileNo());
+				otpDtls.setMobileNo(mobileNo);
+				otpDtls.setEmail(email);
 				otpDtls.setType(otpPayload.getType());
 				log.info("UtilityServiceImpl::sendOtp()::save()");
 				otpDao.save(otpDtls);
 			}
 
 			TwilioService twilioService = new TwilioService();
-			SendSmsDto sendSmsDto = new SendSmsDto(otpPayload.getMobileNo(), Integer.parseInt(generatedOtp));
+			SendSmsDto sendSmsDto = new SendSmsDto(mobileNo, Integer.parseInt(generatedOtp));
 			log.info("UtilityServiceImpl::sendOtp()::otpSendToMobile()");
 			twilioService.otpSendToMobile(sendSmsDto);
 			map.put(Constants.OTP_TXN_ID_KEY, otpTxnId);
-			cmn.setMessage(Messages.OTP_SUCCESS_MSG_TEMPLATE.replace("{0}",
-					"XX" + otpPayload.getMobileNo().substring(2, 8) + "XX"));
+			cmn.setMessage(Messages.OTP_SUCCESS_MSG_TEMPLATE.replace("{0}", "XX" + mobileNo.substring(2, 8) + "XX"));
 			cmn.setStatusCode(Constants.SUCCESS_CD);
 			cmn.setData(map);
 
@@ -79,19 +98,32 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public T validateOtp(OtpPayload otpPayload) {
 		log.info("UtilityServiceImpl::validateOtp()=== START");
 		CommonResoponse cmn = new CommonResoponse();
+		Optional<OtpDtls> otpOptional = null;
+		String mobileNo = null;
+		String email = null;
 		try {
-
+      
 			log.info("UtilityServiceImpl::validateOtp()::getOtpDtls()");
-			Optional<OtpDtls> otpOptional = this.otpDao.getOtpDtls(otpPayload.getMobileNo(), otpPayload.getType());
+			if(otpPayload.getType().equalsIgnoreCase("forgetPassword")) {
+			Optional<UserMst>	userFromDb =userRepository.findByEmailOrMobileNumber(otpPayload.getId(), otpPayload.getId());
+			mobileNo = userFromDb.get().getMobileNumber();
+			email = userFromDb.get().getEmail();
+			}
+			else if(otpPayload.getType().equalsIgnoreCase("mobileAuth")) {
+				mobileNo = otpPayload.getMobileNo();
+				
+			}
+			otpOptional= this.otpDao.getOtpDtls(mobileNo, otpPayload.getType());
 			if (otpOptional.isPresent()) {
 				if (otpOptional.get().getOtp().equalsIgnoreCase(otpPayload.getOtp())
 						&& otpOptional.get().getOtpTxnId().equalsIgnoreCase(otpPayload.getOtpTxnId())) {
 					// log.info("UtilityServiceImpl::validateOtp()::deleteOtpDtls()");
-//                    this.otpDao.deleteOtpDtls(otpOptional.get().getId());
+					// this.otpDao.deleteOtpDtls(otpOptional.get().getId());
 					cmn.setMessage(Messages.OTP_SUCCESS_MSG);
 					cmn.setStatusCode(Constants.OTP_SUCCESS_CD);
 					log.info("UtilityServiceImpl::validateOtp()=== END");

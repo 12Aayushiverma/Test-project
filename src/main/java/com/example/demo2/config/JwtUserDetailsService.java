@@ -46,7 +46,7 @@ public class JwtUserDetailsService implements UserDetailsService {
 		
 		log.info("userDatails return for loadUserByUsername");
 		return new org.springframework.security.core.userdetails
-				.User(userDtlsFromDb.get().getAccessManagement().getUsername(),userDtlsFromDb.get().getAccessManagement().getPassword(), new ArrayList<>());
+				.User(userDtlsFromDb.get().getEmail(),userDtlsFromDb.get().getPassword(), new ArrayList<>());
 	}
 
 }

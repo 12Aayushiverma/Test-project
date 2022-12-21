@@ -9,8 +9,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.example.demo2.entities.UserAccessManagement;
 import com.example.demo2.entities.UserMst;
 import com.example.demo2.model.dto.MailRequestDto;
 import com.example.demo2.model.payload.OtpPayload;
@@ -19,6 +17,7 @@ import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.repositories.UserRepository;
 import com.example.demo2.utils.Constants;
 import com.example.demo2.utils.HelperClass;
+import com.example.demo2.utils.MailService;
 import com.example.demo2.utils.Messages;
 
 @Service
@@ -26,6 +25,9 @@ public class UserServiceImpl<T> implements UserService {
 
 	@Autowired
 	private UserRepository userdao;
+	
+	@Autowired
+	private MailService mailService;
 
 	private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -54,7 +56,7 @@ public class UserServiceImpl<T> implements UserService {
 
 		log.info("UserServiceImpl::addUser()=== START");
 		UserMst user = new UserMst();
-		UserAccessManagement accessManagement = new UserAccessManagement();
+		//UserAccessManagement accessManagement = new UserAccessManagement();
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
@@ -66,14 +68,15 @@ public class UserServiceImpl<T> implements UserService {
 				return (T) cmn;
 			}
 			BeanUtils.copyProperties(userPayload, user);
-			accessManagement.setPassword(generatePassword());
-			user.setAccessManagement(accessManagement);
+			//accessManagement.setPassword(generatePassword());
+			//user.setAccessManagement(accessManagement);
+			user.setPassword(generatePassword());
 			log.info("UserServiceImpl::addUser()::save()");
 			userdao.save(user);
 			MailRequestDto mailReq = new MailRequestDto();
 			mailReq.setReceiverAddress(userPayload.getEmail());
-			mailReq.setSubject("Registration status");
-			mailReq.setMessage("Hey, "+ userPayload.getFirstName() + " you have been registerd successfully");
+			
+//			this.mailService.sendMail(mailReq, user.getEmail(), user.getPassword());
 			cmn.setMessage(Messages.SUCCESS_MSG);
 			cmn.setStatusCode(Constants.SUCCESS_CD);
 			log.info("UserServiceImpl::addUser()=== END");
@@ -139,17 +142,16 @@ public class UserServiceImpl<T> implements UserService {
 	}
 
 	private String generatePassword() {
-		
+
 		Random rnd = new Random();
 		StringBuilder sb = new StringBuilder();
-		for(int i =1; i<=7; i++) {
+		for (int i = 1; i <= 7; i++) {
 			int j = rnd.nextInt(Constants.PASSWORD_HELPER.length());
 			sb.append(Constants.PASSWORD_HELPER.charAt(j));
-			
+
 		}
 		return sb.toString();
-		
+
 	}
-	
 
 }

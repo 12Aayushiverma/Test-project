@@ -28,7 +28,7 @@ public class UserController<T> {
 
 	private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
-	@GetMapping("/Users")
+	@GetMapping("/users")
 	public ResponseEntity<T> getUsers() {
 		log.info("MyController::getUsers===START ");
 		CommonResoponse cmn = new CommonResoponse();
@@ -88,7 +88,7 @@ public class UserController<T> {
 
 	}
 
-	@PutMapping("/user")
+	@PutMapping("/update/user")
 	public ResponseEntity<CommonResoponse> updateUser(@RequestBody UserPayload user) {
 
 		log.info("MyController::updateUser===START ");
@@ -114,7 +114,7 @@ public class UserController<T> {
 
 	}
 
-	@GetMapping("/user")
+	@GetMapping("/find")
 	public ResponseEntity<T> searchUsers(@RequestParam(value = "search", required = false) String search) {
 
 		log.info("MyController::searchUsers===START ");

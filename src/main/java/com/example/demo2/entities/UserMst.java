@@ -9,7 +9,7 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "UserMst")
+@Table(name = "user_mst")
 public class UserMst {
     
 	
@@ -40,8 +40,19 @@ public class UserMst {
     
     private int age;
     
-    @OneToOne
-    private UserAccessManagement accessManagement;
+    private String password;
+    
+    
+   
+
+	public String getPassword() {
+		return password;
+	}
+
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
 
 	public int getId() {
@@ -143,15 +154,6 @@ public class UserMst {
 		this.age = age;
 	}
 
-
-	public UserAccessManagement getAccessManagement() {
-		return accessManagement;
-	}
-
-
-	public void setAccessManagement(UserAccessManagement accessManagement) {
-		this.accessManagement = accessManagement;
-	}
 
 
 	public UserMst() {

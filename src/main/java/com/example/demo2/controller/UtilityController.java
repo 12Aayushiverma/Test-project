@@ -22,21 +22,22 @@ public class UtilityController<T> {
 	private final static Logger log = LoggerFactory.getLogger(UtilityController.class);
 
 	@Autowired
-	private UtilityService utilityService;
+	private UtilityService<T> utilityService;
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/sendotp")
 	public ResponseEntity<T> sendOtp(@RequestBody OtpPayload otpPayload) {
 
 		log.info("UtilityController::sendOtp===START ");
 		CommonResoponse cmn = new CommonResoponse();
 		try {
-			
-			if(otpPayload==null || otpPayload.getType()== null || otpPayload.getType().isEmpty()) {
+
+			if (otpPayload == null || otpPayload.getType() == null || otpPayload.getType().isEmpty()) {
 				log.error("UtilityController::sendOtp::ERROR= Invalid request");
 				cmn = HelperClass.getNullRequestResoponse();
 				log.error("UtilityController::sendOtp::ERROR= {}", cmn);
 				return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
-				
+
 			}
 			log.info("UtilityController::sendOtp() ");
 			cmn = (CommonResoponse) this.utilityService.sendOtp(otpPayload);
@@ -54,20 +55,21 @@ public class UtilityController<T> {
 
 	}
 
+	@SuppressWarnings("unchecked")
 	@PostMapping("/validateotp")
 	public ResponseEntity<T> validateOtp(@RequestBody OtpPayload otpPayload) {
 
 		log.info("UtilityController::validateOtp===START ");
 		CommonResoponse cmn = new CommonResoponse();
 		try {
-			if(otpPayload==null || otpPayload.getType()== null || otpPayload.getType().isEmpty() || 
-					otpPayload.getOtpTxnId()==null || otpPayload.getOtpTxnId().isEmpty() || otpPayload.getOtp() == null 
-					|| otpPayload.getOtp().isEmpty()) {
+			if (otpPayload == null || otpPayload.getType() == null || otpPayload.getType().isEmpty()
+					|| otpPayload.getOtpTxnId() == null || otpPayload.getOtpTxnId().isEmpty()
+					|| otpPayload.getOtp() == null || otpPayload.getOtp().isEmpty()) {
 				log.error("UtilityController::validateOtp::ERROR= Invalid request");
 				cmn = HelperClass.getNullRequestResoponse();
 				log.error("UtilityController::validateOtp::ERROR= {}", cmn);
 				return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
-				
+
 			}
 			log.info("UtilityController::validateOtp() ");
 			cmn = (CommonResoponse) this.utilityService.validateOtp(otpPayload);

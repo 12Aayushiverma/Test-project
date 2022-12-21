@@ -21,7 +21,7 @@ public interface UserRepository extends JpaRepository<UserMst, Long>{
 	public void updateName(int userId, String name);
 	
 	
-	@Query(value = "SELECT * FROM user_mst WHERE name LIKE UPPER('%:search%') ", nativeQuery = true)
+	@Query(value = "SELECT um FROM UserMst um WHERE um.firstName LIKE UPPER('%' || :search || '%') ", nativeQuery = true)
 	public List<UserMst> searchUser(String search );
 	
 	@Query(value = "SELECT * FROM user_mst WHERE mobile_number = :mobileNumber OR email= :email", nativeQuery = true)

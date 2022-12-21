@@ -22,4 +22,7 @@ public class Messages {
 	
 	public static String OTP_REQUEST = "First request for Otp";
 	
+	public static String INVALID_PASSWORD = " User is Exist but Incorrect password";
+	
+	public static String USER_NOT_EXIST = "User not exist";
 }
