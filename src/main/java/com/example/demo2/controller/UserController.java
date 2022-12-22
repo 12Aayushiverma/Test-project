@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 import com.example.demo2.model.payload.UserPayload;
 import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.service.UserService;
@@ -137,6 +138,44 @@ public class UserController<T> {
 
 	}
 
-	
+	@PostMapping("/uploadProfile")
+	public T profileUpload(@RequestParam(value = "profileImg") MultipartFile file,
+			@RequestParam(value = "userId") String userId) {
+		log.info("MyController::profileUpload===START ");
+		CommonResoponse cmn = new CommonResoponse();
+		try {
+			if (file == null) {
+				log.error("MyController::profileUpload::ERROR= Invalid request");
+				cmn = HelperClass.getNullRequestResoponse();
+				return (T) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
+
+			} else if (file.getSize() < 1024) {
+				log.error("MyController::profileUpload::ERROR= {}", cmn);
+				cmn.setMessage(Messages.MIN_SIZE_ALLOWED);
+				cmn.setStatusCode(Constants.MAX_SIZE);
+				return (T) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
+			} else if (file.getSize() > 1048576) {
+				log.error("MyController::profileUpload::ERROR= {}", cmn);
+				cmn.setMessage(Messages.MAX_SIZE_ALLOWED);
+				cmn.setStatusCode(Constants.MIN_SIZE);
+				return (T) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
+			}
+			log.info("MyController::profileUpload::uploadProfile():: request= {}");
+			cmn = (CommonResoponse) userService.uploadProfile(file, userId);
+
+			log.info("MyController::profileUpload===END ");
+			return (T) ResponseEntity.status(HttpStatus.OK).body(cmn);
+
+		} catch (Exception e) {
+
+			log.error("MyController::profileUpload===EXCEPTION= {} ", e.getStackTrace());
+			cmn.setMessage(Messages.SOMETHING_WENT_WRONG);
+			cmn.setStatusCode(Constants.ERROR_CD);
+			return (T) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(cmn);
+		}
+
+		
+
+	}
 
 }

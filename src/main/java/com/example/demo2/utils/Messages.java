@@ -25,4 +25,14 @@ public class Messages {
 	public static String INVALID_PASSWORD = " User is Exist but Incorrect password";
 	
 	public static String USER_NOT_EXIST = "User not exist";
+	
+	public static String MAX_SIZE_ALLOWED = "Image should not be contain more then 1 MB";
+	
+	public static String MIN_SIZE_ALLOWED = "Image should not be contain less then 1 KB";
+	
+	public static String FILE_EMPTY = "Request must for contain";
+
+	public static String PROFILE_UPLOAD_SUCCESS_MSG = "Profile is successfully uploaded";
+
+	
 }

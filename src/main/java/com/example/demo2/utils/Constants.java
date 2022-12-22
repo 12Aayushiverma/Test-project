@@ -43,4 +43,11 @@ public class Constants {
     public static final String MAIL_DEBUG_KEY = "mail.smtp.debug";
     public static final String MAIL_SSL_ENABLE_KEY = "mail.smtp.ssl.enable";
     public static final String MAIL_DEBUG = "true";
+    
+    public static int MAX_SIZE = -1077;
+    public static int MIN_SIZE = -1078;
+    
+    public static int EMPTY_FILE = -1079;
+
+    
 }

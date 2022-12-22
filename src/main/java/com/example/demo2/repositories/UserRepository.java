@@ -20,6 +20,9 @@ public interface UserRepository extends JpaRepository<UserMst, Long>{
 	@Query(value = " UPDATE user_mst SET name = :name WHERE id = :userId", nativeQuery = true)
 	public void updateName(int userId, String name);
 	
+	@Query(value = "SELECT * FROM user_mst WHERE id = :userId", nativeQuery = true)
+	public Optional<UserMst> fetchUserDtls(Integer userId);
+	
 	
 	@Query(value = "SELECT um FROM UserMst um WHERE um.firstName LIKE UPPER('%' || :search || '%') ", nativeQuery = true)
 	public List<UserMst> searchUser(String search );

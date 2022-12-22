@@ -1,6 +1,6 @@
 package com.example.demo2.service;
 
-import com.example.demo2.model.payload.OtpPayload;
+import org.springframework.web.multipart.MultipartFile;
 import com.example.demo2.model.payload.UserPayload;
 
 public interface UserService<T> {
@@ -12,6 +12,10 @@ public interface UserService<T> {
 	public T getUsers();
 	
 	public T searchUser(String search);
+	
+	public T uploadProfile(MultipartFile file, String userId);
+	
+	public String uploadFile(MultipartFile multipart, String userId);
 	
 	
 

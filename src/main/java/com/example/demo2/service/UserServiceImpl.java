@@ -1,19 +1,27 @@
 package com.example.demo2.service;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
+
+import com.example.demo2.entities.ProfileImageDtls;
 import com.example.demo2.entities.UserMst;
 import com.example.demo2.model.dto.MailRequestDto;
-import com.example.demo2.model.payload.OtpPayload;
 import com.example.demo2.model.payload.UserPayload;
 import com.example.demo2.model.response.CommonResoponse;
+import com.example.demo2.repositories.ProfileImgRepository;
 import com.example.demo2.repositories.UserRepository;
 import com.example.demo2.utils.Constants;
 import com.example.demo2.utils.HelperClass;
@@ -25,7 +33,10 @@ public class UserServiceImpl<T> implements UserService {
 
 	@Autowired
 	private UserRepository userdao;
-	
+
+	@Autowired
+	private ProfileImgRepository imgRepository;
+
 	@Autowired
 	private MailService mailService;
 
@@ -56,7 +67,7 @@ public class UserServiceImpl<T> implements UserService {
 
 		log.info("UserServiceImpl::addUser()=== START");
 		UserMst user = new UserMst();
-		//UserAccessManagement accessManagement = new UserAccessManagement();
+		// UserAccessManagement accessManagement = new UserAccessManagement();
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
@@ -68,14 +79,14 @@ public class UserServiceImpl<T> implements UserService {
 				return (T) cmn;
 			}
 			BeanUtils.copyProperties(userPayload, user);
-			//accessManagement.setPassword(generatePassword());
-			//user.setAccessManagement(accessManagement);
+			// accessManagement.setPassword(generatePassword());
+			// user.setAccessManagement(accessManagement);
 			user.setPassword(generatePassword());
 			log.info("UserServiceImpl::addUser()::save()");
 			userdao.save(user);
 			MailRequestDto mailReq = new MailRequestDto();
 			mailReq.setReceiverAddress(userPayload.getEmail());
-			
+
 //			this.mailService.sendMail(mailReq, user.getEmail(), user.getPassword());
 			cmn.setMessage(Messages.SUCCESS_MSG);
 			cmn.setStatusCode(Constants.SUCCESS_CD);
@@ -152,6 +163,58 @@ public class UserServiceImpl<T> implements UserService {
 		}
 		return sb.toString();
 
+	}
+
+	@Override
+	public T uploadProfile(MultipartFile file, String userId) {
+		ProfileImageDtls profileImageDtls = new ProfileImageDtls();
+		log.info("UserServiceImpl::uploadProfile()=== START");
+		CommonResoponse cmn = new CommonResoponse();
+		try {
+			log.info("UserServiceImpl::uploadProfile()::factchUserDtls");
+			Optional<UserMst> userFromDb = this.userdao.fetchUserDtls(Integer.parseInt(userId));
+			log.info("UserServiceImpl::uploadProfile()::uploadFile()");
+			String profileImgPath = uploadFile(file, userId);
+			profileImageDtls.setPath(profileImgPath);
+			profileImageDtls.setUserMst(userFromDb.get());
+			log.info("UserServiceImpl::uploadProfile()::save");
+			imgRepository.save(profileImageDtls);
+
+			cmn.setMessage(Messages.PROFILE_UPLOAD_SUCCESS_MSG);
+			cmn.setStatusCode(Constants.SUCCESS_CD);
+			cmn.setData(profileImgPath);
+			log.info("UserServiceImpl::uploadProfile()=== END");
+			return (T) cmn;
+
+		} catch (Exception e) {
+			log.error("UserServiceImpl::searchUser():: Exception={}", e.getStackTrace());
+			return (T) HelperClass.getCommonExceptionResoponse();
+
+		}
+	}
+
+	@Override
+	public String uploadFile(MultipartFile file, String userId) {
+
+		final String UPLOAD_DIR = "src\\main\\resources\\static\\image";
+
+		try {
+			String fileName = file.getOriginalFilename();
+			String[] arr = fileName.split("[.]");
+			String s2 = userId + "." + arr[1];
+
+			String path = UPLOAD_DIR+"\\"+s2;
+			try (OutputStream outputStream = new FileOutputStream(new File(path))) {
+		         outputStream.write(file.getBytes());
+		      }
+		      log.info("UserProfileServiceImpl :: saveDocuments == END");
+		      return path;
+		   } catch (Exception e) {
+		      log.info("Exception :: UserProfileServiceaImpl :: saveDocuments : {}", e.getMessage());
+		   }
+		   log.info("UserProfileServiceImpl :: saveDocuments == END");
+		   return null;
+       
 	}
 
 }
