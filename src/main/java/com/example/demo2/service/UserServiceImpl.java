@@ -3,9 +3,6 @@ package com.example.demo2.service;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
@@ -199,6 +196,8 @@ public class UserServiceImpl<T> implements UserService {
 		final String UPLOAD_DIR = "src\\main\\resources\\static\\image";
 
 		try {
+		      log.info("UserProfileServiceImpl :: uploadFile() == START");
+
 			String fileName = file.getOriginalFilename();
 			String[] arr = fileName.split("[.]");
 			String s2 = userId + "." + arr[1];
@@ -207,12 +206,12 @@ public class UserServiceImpl<T> implements UserService {
 			try (OutputStream outputStream = new FileOutputStream(new File(path))) {
 		         outputStream.write(file.getBytes());
 		      }
-		      log.info("UserProfileServiceImpl :: saveDocuments == END");
+		      log.info("UserProfileServiceImpl :: uploadFile() == END");
 		      return path;
 		   } catch (Exception e) {
-		      log.info("Exception :: UserProfileServiceaImpl :: saveDocuments : {}", e.getMessage());
+		      log.info("Exception :: UserProfileServiceaImpl :: uploadFile() : {}", e.getMessage());
 		   }
-		   log.info("UserProfileServiceImpl :: saveDocuments == END");
+		   log.info("UserProfileServiceImpl :: uploadFile() == END");
 		   return null;
        
 	}
