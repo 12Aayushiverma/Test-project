@@ -9,4 +9,6 @@ public interface UtilityService<T> {
 	public T sendOtp(OtpPayload otpPayload);
 	
 	public T validateOtp(OtpPayload otpPayload);
+	
+	public String getMobileNoFromToken();
 }

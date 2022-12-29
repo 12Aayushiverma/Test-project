@@ -1,5 +1,7 @@
 package com.example.demo2.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.slf4j.Logger;
@@ -51,7 +53,9 @@ public class LoginServiceImpl<T> implements LoginService<T>{
 					log.info("LoginServiceImpl::loginUser()::loadUserByUsername()");
 					UserDetails userDetails = 	this.detailsService.loadUserByUsername(loginPayload.getUsername());
 					log.info("LoginServiceImpl::loginUser()::generateToken()");
-					String token =jwtutils.generateToken(userDetails);
+					Map<String, Object> claims = new HashMap<String, Object>();
+					claims.put("MobileNo",userFromDb.get().getMobileNumber() );
+					String token =jwtutils.generateToken(userDetails, claims);
 					cmn.setData(token);
 					cmn.setMessage(Messages.SUCCESS_MSG);
 					cmn.setStatusCode(Constants.SUCCESS_CD);

@@ -33,6 +33,8 @@ public class Constants {
 	
     public static String PASSWORD_HELPER = "abchefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$*&";
     
+    public static String CAPTCHA_HELPER = "abchefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+    
     public static int INVALID_PASSWORD = -1065;
     
     public static int USER_NOT_EXIST = -1066;

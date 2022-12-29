@@ -1,5 +1,7 @@
 package com.example.demo2.controller;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,17 +28,19 @@ public class UserController<T> {
 
 	@Autowired
 	private UserService userService;
+	
+
 
 	private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
 	@GetMapping("/users")
-	public ResponseEntity<T> getUsers() {
+	public ResponseEntity<T> getUsers(@RequestParam("pageNo") int pageNo) {
 		log.info("MyController::getUsers===START ");
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
 			log.info("MyController::getUsers::getUsers() ");
-			cmn = (CommonResoponse) userService.getUsers();
+			cmn = (CommonResoponse) userService.getUsers(pageNo);
 
 			log.info("MyController::getUser===END ");
 			return ResponseEntity.status(HttpStatus.OK).body((T) cmn);

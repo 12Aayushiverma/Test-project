@@ -5,11 +5,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Optional;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.demo2.config.JwtUtil;
 import com.example.demo2.entities.OtpDtls;
 import com.example.demo2.entities.UserMst;
 import com.example.demo2.model.dto.SendSmsDto;
@@ -22,6 +26,8 @@ import com.example.demo2.utils.HelperClass;
 import com.example.demo2.utils.Messages;
 import com.example.demo2.utils.TwilioService;
 
+import ch.qos.logback.classic.pattern.Util;
+
 @Service
 public class UtilityServiceImpl<T> implements UtilityService<T> {
 
@@ -30,6 +36,12 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	HttpServletRequest request;
+	
+	@Autowired
+	JwtUtil jwtUtil;
 
 	private final static Logger log = LoggerFactory.getLogger(UtilityServiceImpl.class);
 
@@ -170,6 +182,12 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 			return null;
 		}
 
+	}
+	
+	@Override
+	public String getMobileNoFromToken() {
+		String token = request.getHeader("Authorization").substring(7);
+		 return  jwtUtil.getMobileNoFromToken(token);
 	}
 
 }

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.example.demo2.model.payload.OtpPayload;
 import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.service.UtilityService;

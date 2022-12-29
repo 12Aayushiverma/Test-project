@@ -41,6 +41,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 		return new BCryptPasswordEncoder();
 	}
 	
+	
 	@Bean
 	public AuthenticationManager authenticationManager() throws Exception {
 		return super.authenticationManager();
@@ -72,8 +73,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeRequests()
-				.antMatchers("/user/register","/utility/sendotp","/utility/validateotp","/user/uploadProfile").permitAll()
-				.antMatchers("/user/users","/user/update/user")
+				.antMatchers("/user/register","/login","/utility/sendotp","/utility/validateotp","/user/uploadProfile").permitAll()
+				.antMatchers("/user/users","/user/update/user").hasRole("ADMIN").anyRequest()
 			.authenticated();
 		
 		http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);

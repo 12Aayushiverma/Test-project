@@ -1,13 +1,12 @@
 package com.example.demo2.config;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
-
+import org.springframework.stereotype.Component; 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -23,6 +22,15 @@ public class JwtUtil implements Serializable {
 	public String getUsernameFromToken(String token) {
 		return getClaimFromToken(token, Claims::getSubject);
 	}
+	
+	// retrieve username from jwt token
+		public String getMobileNoFromToken(String token) {
+			Claims claims = Jwts.parser()      
+					  .setSigningKey(secret)
+					   .parseClaimsJws(token).getBody();
+			
+			return (String)claims.get("MobileNo");
+		}
 
 	// retrieve expiration date from jwt token
 	public Date getExpirationDateFromToken(String token) {
@@ -46,8 +54,8 @@ public class JwtUtil implements Serializable {
 	}
 
 	// generate token for user
-	public String generateToken(UserDetails userDetails) {
-		Map<String, Object> claims = new HashMap<>();
+	public String generateToken(UserDetails userDetails, Map<String , Object> claims) {
+		
 		return doGenerateToken(claims, userDetails.getUsername());
 	}
 

@@ -3,9 +3,9 @@ package com.example.demo2.model.response;
 public class CommonResoponse {
 
 	private Object data;
-	
+
 	private String message;
-	
+
 	private int statusCode;
 
 	public Object getData() {
@@ -37,6 +37,4 @@ public class CommonResoponse {
 		return "CommonResoponse [data=" + data + ", message=" + message + ", statusCode=" + statusCode + "]";
 	}
 
-	
-	
 }

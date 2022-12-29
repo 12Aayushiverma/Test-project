@@ -1,15 +1,9 @@
 package com.example.demo2.model.payload;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 public class UserPayload {
         
-	    
-	    
-		
+	  
 	    private String name;
 	    
 	    private String firstName;
@@ -29,6 +23,17 @@ public class UserPayload {
 	    private int age;
 	
         private int id;
+        
+        private String role;
+        
+
+		public String getRole() {
+			return role;
+		}
+
+		public void setRole(String role) {
+			this.role = role;
+		}
 
 		public String getName() {
 			return name;

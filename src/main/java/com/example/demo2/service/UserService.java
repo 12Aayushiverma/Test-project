@@ -9,7 +9,7 @@ public interface UserService<T> {
 
 	public T updateUser(UserPayload user);
 
-	public T getUsers();
+	public T getUsers(int pageNo);
 	
 	public T searchUser(String search);
 	
