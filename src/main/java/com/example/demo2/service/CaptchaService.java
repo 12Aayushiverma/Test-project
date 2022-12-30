@@ -5,6 +5,6 @@ public interface CaptchaService<T> {
 	
 	public T generateCaptcha();
 	
-	public T validateCaptcha(int captchaId, String captchaCode);
+	public T validateCaptcha(Integer captchaId, String captchaCode);
 	
 }

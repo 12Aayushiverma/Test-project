@@ -34,5 +34,7 @@ public class Messages {
 
 	public static String PROFILE_UPLOAD_SUCCESS_MSG = "Profile is successfully uploaded";
 
+	public static String CAPTCHA_CODE_GENERATE = "Captcha code has been generated successfully!";
+	
 	
 }

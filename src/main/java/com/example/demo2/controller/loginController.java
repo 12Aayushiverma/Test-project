@@ -35,6 +35,14 @@ public class loginController<T> {
 		CommonResoponse cmn = new CommonResoponse();
 		try {
 
+			
+			if(loginPayload== null || loginPayload.getCaptchaCode()== null || loginPayload.getCaptchaId()== null ||
+					loginPayload.getUsername()== null || loginPayload.getPassword() == null) {
+				log.error("loginController::login::ERROR= Invalid request");
+				cmn = HelperClass.getNullRequestResoponse();
+				log.error("loginController::login::ERROR= {}", cmn);
+				return (ResponseEntity<T>) ResponseEntity.status(HttpStatus.BAD_REQUEST).body(cmn);
+			}
 			log.info("loginController::login::login() ");
 			cmn = (CommonResoponse) loginService.login(loginPayload);
 

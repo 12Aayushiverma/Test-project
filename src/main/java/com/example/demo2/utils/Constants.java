@@ -38,6 +38,11 @@ public class Constants {
     public static int INVALID_PASSWORD = -1065;
     
     public static int USER_NOT_EXIST = -1066;
+    public static int CAPTCHA_CODE_GENERATE = 1080;
+    
+    public static int CAPTCHA_VALIDATED_SUCCESS_CD = 1081;
+    
+    public static int INVALID_CAPTCHA_CD = -1081;
     
     public static final String MAIL_HOST_KEY = "mail.smtp.host";
     public static final String MAIL_PORT_KEY = "mail.smtp.port";
@@ -45,6 +50,8 @@ public class Constants {
     public static final String MAIL_DEBUG_KEY = "mail.smtp.debug";
     public static final String MAIL_SSL_ENABLE_KEY = "mail.smtp.ssl.enable";
     public static final String MAIL_DEBUG = "true";
+    
+    
     
     public static int MAX_SIZE = -1077;
     public static int MIN_SIZE = -1078;

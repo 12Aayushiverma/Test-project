@@ -42,6 +42,11 @@ public class CaptchaDtls {
 		super();
 		this.captchaCode = captchaCode;
 	}
+
+	public CaptchaDtls() {
+		super();
+	}
+	
 	
 	
 

@@ -166,17 +166,7 @@ public class UserServiceImpl<T> implements UserService {
 
 	}
 	
-	private String generateCaptcha() {
-		Random rnd = new Random();
-		StringBuilder sb = new StringBuilder();
-		for (int i = 1; i <= 7; i++) {
-			int j = rnd.nextInt(Constants.CAPTCHA_HELPER.length());
-			sb.append(Constants.CAPTCHA_HELPER.charAt(j));
-
-		}
-		return sb.toString();
-
-	}
+	
 
 	@Override
 	public T uploadProfile(MultipartFile file, String userId) {

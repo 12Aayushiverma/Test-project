@@ -73,7 +73,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 				.and()
 				.authorizeRequests()
-				.antMatchers("/user/register","/login","/utility/sendotp","/utility/validateotp","/user/uploadProfile").permitAll()
+				.antMatchers("/user/register","/login","/utility/sendotp","/utility/validateotp","/user/uploadProfile","/captcha/generate").permitAll()
 				.antMatchers("/user/users","/user/update/user").hasRole("ADMIN").anyRequest()
 			.authenticated();
 		
