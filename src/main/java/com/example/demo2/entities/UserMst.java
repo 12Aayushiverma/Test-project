@@ -16,10 +16,10 @@ public class UserMst {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Id
 	private int id;
-	
-    private String name;
     
-    @Column(nullable  = false)
+    private String name;
+
+	@Column(nullable  = false)
     private String firstName;
     
     @Column(nullable  = false)
@@ -44,8 +44,15 @@ public class UserMst {
     
     private String role;
     
-    
-   
+    public String getName() {
+		return name;
+	}
+
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
 
 	public String getRole() {
 		return role;
@@ -74,16 +81,6 @@ public class UserMst {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-
-	public String getName() {
-		return name;
-	}
-
-
-	public void setName(String name) {
-		this.name = name;
 	}
 
 
@@ -171,7 +168,7 @@ public class UserMst {
 	public UserMst() {
 		
 		this.id = id;
-		this.name = name;
+		this.name= name;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.mobileNumber = mobileNumber;

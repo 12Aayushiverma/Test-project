@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -63,7 +64,13 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 		auth.userDetailsService(userDetailsServiceImpl);
 		
 	}
-
+	
+	/*
+	 * @Override public void configure(WebSecurity web) throws Exception {
+	 * web.ignoring().mvcMatchers("/v2/api-docs", "/configuration/ui",
+	 * "/swagger-resources/**", "/configuration/security", "/swagger-ui.html",
+	 * "/webjars/**"); }
+	 */
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -74,6 +81,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter implemen
 				.and()
 				.authorizeRequests()
 				.antMatchers("/user/register","/login","/utility/sendotp","/utility/validateotp","/user/uploadProfile","/captcha/generate").permitAll()
+				.antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security",
+					      "/swagger-ui.html", "/webjars/**").permitAll()
 				.antMatchers("/user/users","/user/update/user").hasRole("ADMIN").anyRequest()
 			.authenticated();
 		

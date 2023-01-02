@@ -66,7 +66,9 @@ public class LoginServiceImpl<T> implements LoginService<T> {
 					Map<String, Object> claims = new HashMap<String, Object>();
 					claims.put("MobileNo", userFromDb.get().getMobileNumber());
 					String token = jwtutils.generateToken(userDetails, claims);
-					cmn.setData(token);
+					HashMap<String , String > res = new HashMap<>();
+					res.put("jwtToken", token);
+					cmn.setData(res);
 					cmn.setMessage(Messages.SUCCESS_MSG);
 					cmn.setStatusCode(Constants.SUCCESS_CD);
 					log.info("LoginServiceImpl::loginUser()=== END");

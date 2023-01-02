@@ -48,7 +48,7 @@ public class UserServiceImpl<T> implements UserService {
 		
 		try {
           
-			Pageable pageable = PageRequest.of(pageNo, 3);
+			Pageable pageable = PageRequest.of(pageNo, 2);
 			log.info("UserServiceImpl::getUsers()::findAll()");
 			Page<UserMst> listFromDb = userdao.findAll(pageable);
 			cmn.setData(listFromDb);
