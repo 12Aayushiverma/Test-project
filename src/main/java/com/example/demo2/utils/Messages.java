@@ -36,5 +36,6 @@ public class Messages {
 
 	public static String CAPTCHA_CODE_GENERATE = "Captcha code has been generated successfully!";
 	
+	public static String INVALID_CAPTCHA_CD = "Invalid captcha code!";
 	
 }

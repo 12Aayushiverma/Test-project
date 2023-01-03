@@ -58,13 +58,13 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 			Optional<OtpDtls> otpOptional = null;
 			String mobileNo = null;
 			String email = null;
-			if (otpPayload.getType().equalsIgnoreCase("forgetPassword")) {
+			if (otpPayload.getType().equalsIgnoreCase(Constants.FORGET_PASSWORD_USECASE)) {
 				Optional<UserMst> userFromDb = this.userRepository.findByEmailOrMobileNumber(otpPayload.getId(),
 						otpPayload.getId());
 				mobileNo = userFromDb.get().getMobileNumber();
 				email = userFromDb.get().getEmail();
 				otpOptional = this.otpDao.check(userFromDb.get().getMobileNumber(), otpPayload.getType());
-			} else if (otpPayload.getType().equalsIgnoreCase("mobileAuth")) {
+			} else if (otpPayload.getType().equalsIgnoreCase(Constants.MOBILE_AUTHENTICATION_USECASE)) {
 				mobileNo = otpPayload.getMobileNo();
 				otpOptional = this.otpDao.check(otpPayload.getMobileNo(), otpPayload.getType());
 			}
@@ -121,12 +121,12 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 		try {
       
 			log.info("UtilityServiceImpl::validateOtp()::getOtpDtls()");
-			if(otpPayload.getType().equalsIgnoreCase("forgetPassword")) {
+			if(otpPayload.getType().equalsIgnoreCase(Constants.FORGET_PASSWORD_USECASE)) {
 			Optional<UserMst>	userFromDb =userRepository.findByEmailOrMobileNumber(otpPayload.getId(), otpPayload.getId());
 			mobileNo = userFromDb.get().getMobileNumber();
 			email = userFromDb.get().getEmail();
 			}
-			else if(otpPayload.getType().equalsIgnoreCase("mobileAuth")) {
+			else if(otpPayload.getType().equalsIgnoreCase(Constants.MOBILE_AUTHENTICATION_USECASE)) {
 				mobileNo = otpPayload.getMobileNo();
 				
 			}

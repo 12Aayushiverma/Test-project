@@ -31,6 +31,11 @@ public class Constants {
 	
 	public static int REQUEST_FOR_OTP_CD = -1064;
 	
+	public static String CAPTCHA_CODE_KEY = "captchaCode";
+	
+	public static String CAPTCHA_ID_KEY = "captchaId";
+	
+	
     public static String PASSWORD_HELPER = "abchefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ123456789@#$*&";
     
     public static String CAPTCHA_HELPER = "abchefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
@@ -43,6 +48,10 @@ public class Constants {
     public static int CAPTCHA_VALIDATED_SUCCESS_CD = 1081;
     
     public static int INVALID_CAPTCHA_CD = -1081;
+    
+    public static String FORGET_PASSWORD_USECASE = "forgetPassword";
+    
+    public static String MOBILE_AUTHENTICATION_USECASE = "mobileAuth";
     
     public static final String MAIL_HOST_KEY = "mail.smtp.host";
     public static final String MAIL_PORT_KEY = "mail.smtp.port";
@@ -57,6 +66,10 @@ public class Constants {
     public static int MIN_SIZE = -1078;
     
     public static int EMPTY_FILE = -1079;
+    
+    public static String JWT_KEY = "jwtToken";
+    
+    public static String MOBILE_NO_KEY = "MobileNo";
 
     
 }

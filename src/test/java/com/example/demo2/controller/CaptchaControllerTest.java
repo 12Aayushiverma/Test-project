@@ -15,6 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.service.CaptchaService;
+import com.example.demo2.utils.Constants;
 
 
 
@@ -33,8 +34,8 @@ public class CaptchaControllerTest {
 	   public void generateCaptchaTest() {
 		   CommonResoponse cmn = new CommonResoponse();
 		   Map<String, Object> captchaDtls = new HashMap<String, Object>();
-		   captchaDtls.put("captchaCode", "ahfg");
-		   captchaDtls.put("captchaId", 1);		   
+		   captchaDtls.put(Constants.CAPTCHA_CODE_KEY, "ahfg");
+		   captchaDtls.put(Constants.CAPTCHA_ID_KEY, 1);		   
 		   cmn.setData(captchaDtls);
 		  Mockito.when(captchaService.generateCaptcha()).thenReturn(cmn);
 		  ResponseEntity<Object> cmnResponseEntity = captchaController.generateCaptcha();

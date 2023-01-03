@@ -40,8 +40,8 @@ public class CaptchaServiceImpl<T> implements CaptchaService<T> {
 			log.info("CaptchaServiceImpl::generateCaptcha::save()");
 			CaptchaDtls generatedCaptchaDtls = this.captchaRepository.save(new CaptchaDtls(captchaCode));
 			Map<String, Object> captchaDtls = new HashMap<String, Object>();
-			captchaDtls.put("captchaCode", generatedCaptchaDtls.getCaptchaCode());
-			captchaDtls.put("captchaId", generatedCaptchaDtls.getCaptchaId());
+			captchaDtls.put(Constants.CAPTCHA_CODE_KEY, generatedCaptchaDtls.getCaptchaCode());
+			captchaDtls.put(Constants.CAPTCHA_ID_KEY, generatedCaptchaDtls.getCaptchaId());
 			cmn.setData(captchaDtls);
 			cmn.setMessage(Messages.CAPTCHA_CODE_GENERATE);
 			cmn.setStatusCode(Constants.CAPTCHA_CODE_GENERATE);
@@ -70,7 +70,7 @@ public class CaptchaServiceImpl<T> implements CaptchaService<T> {
 				log.info("CaptchaServiceImpl::validateCaptcha=== END");
 
 			} else {
-				cmn.setMessage("Invalid captcha code!");
+				cmn.setMessage(Messages.INVALID_CAPTCHA_CD);
 				cmn.setStatusCode(Constants.INVALID_CAPTCHA_CD);
 				log.error("CaptchaServiceImpl::validateCaptcha()::ERROR=INVALID_CAPTCHA_CODE ");
 			}

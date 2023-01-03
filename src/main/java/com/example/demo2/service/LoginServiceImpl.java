@@ -64,10 +64,10 @@ public class LoginServiceImpl<T> implements LoginService<T> {
 					UserDetails userDetails = this.detailsService.loadUserByUsername(loginPayload.getUsername());
 					log.info("LoginServiceImpl::loginUser()::generateToken()");
 					Map<String, Object> claims = new HashMap<String, Object>();
-					claims.put("MobileNo", userFromDb.get().getMobileNumber());
+					claims.put(Constants.MOBILE_NO_KEY, userFromDb.get().getMobileNumber());
 					String token = jwtutils.generateToken(userDetails, claims);
 					HashMap<String , String > res = new HashMap<>();
-					res.put("jwtToken", token);
+					res.put(Constants.JWT_KEY, token);
 					cmn.setData(res);
 					cmn.setMessage(Messages.SUCCESS_MSG);
 					cmn.setStatusCode(Constants.SUCCESS_CD);
