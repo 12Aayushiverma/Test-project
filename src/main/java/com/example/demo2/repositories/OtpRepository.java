@@ -24,7 +24,8 @@ public interface OtpRepository  extends JpaRepository<OtpDtls, Integer>{
 	
      @Query(value = "SELECT * FROM otp_dtls WHERE mobile_no= :mobileNo AND type= :type ", nativeQuery = true)
      public Optional<OtpDtls> getOtpDtls(String mobileNo, String type);
-     
+     @Transactional
+	 @Modifying
      @Query(value ="DELETE FROM OtpDtls  WHERE id = :otpId")
       void deleteOtpDtls(Integer otpId);
 

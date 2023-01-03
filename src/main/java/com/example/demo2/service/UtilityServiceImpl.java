@@ -99,7 +99,7 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 			cmn.setStatusCode(Constants.SUCCESS_CD);
 			cmn.setData(map);
 
-			log.info("UtilityServiceImpl::sendOtp()=== END");
+				log.info("UtilityServiceImpl::sendOtp()=== END");
 			return (T) cmn;
 
 		} catch (Exception e) {
@@ -126,16 +126,17 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 			mobileNo = userFromDb.get().getMobileNumber();
 			email = userFromDb.get().getEmail();
 			}
-			else if(otpPayload.getType().equalsIgnoreCase(Constants.MOBILE_AUTHENTICATION_USECASE)) {
-				mobileNo = otpPayload.getMobileNo();
+
+			else if(otpPayload.getType().equalsIgnoreCase("mobileAuth")) {
+				mobileNo = otpPayload.getId();
 				
 			}
 			otpOptional= this.otpDao.getOtpDtls(mobileNo, otpPayload.getType());
 			if (otpOptional.isPresent()) {
 				if (otpOptional.get().getOtp().equalsIgnoreCase(otpPayload.getOtp())
 						&& otpOptional.get().getOtpTxnId().equalsIgnoreCase(otpPayload.getOtpTxnId())) {
-					// log.info("UtilityServiceImpl::validateOtp()::deleteOtpDtls()");
-					// this.otpDao.deleteOtpDtls(otpOptional.get().getId());
+					 log.info("UtilityServiceImpl::validateOtp()::deleteOtpDtls()");
+					 this.otpDao.deleteOtpDtls(otpOptional.get().getId());
 					cmn.setMessage(Messages.OTP_SUCCESS_MSG);
 					cmn.setStatusCode(Constants.OTP_SUCCESS_CD);
 					log.info("UtilityServiceImpl::validateOtp()=== END");
