@@ -51,7 +51,7 @@ public class OtpPayload {
 	}
 
 
-	public String getMobileNo() {
+	public String 	getMobileNo() {
 		return mobileNo;
 	}
 
