@@ -70,6 +70,8 @@ public class Constants {
     public static String JWT_KEY = "jwtToken";
     
     public static String MOBILE_NO_KEY = "MobileNo";
+    
+    
 
     
 }

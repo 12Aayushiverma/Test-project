@@ -1,11 +1,19 @@
 package com.example.demo2.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
 import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,8 +35,6 @@ public class UserController<T> {
 
 	@Autowired
 	private UserService userService;
-	
-
 
 	private final static Logger log = LoggerFactory.getLogger(UserController.class);
 
@@ -177,7 +183,20 @@ public class UserController<T> {
 			return (T) ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(cmn);
 		}
 
-		
+	}
+
+	public static void main(String[] args) throws FileNotFoundException {
+		File file = new File("src\\main\\resources\\static\\image\\1.jpg");
+		System.out.println(file.getName());
+		FileInputStream input = new FileInputStream(file);
+
+		try {
+			MultipartFile multipartFile = new MockMultipartFile("file", file.getName(), "image/jpeg",
+					IOUtils.toByteArray(input));
+			System.out.println(multipartFile.getName());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 	}
 

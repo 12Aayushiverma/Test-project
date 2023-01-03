@@ -65,8 +65,8 @@ public class UtilityServiceImpl<T> implements UtilityService<T> {
 				email = userFromDb.get().getEmail();
 				otpOptional = this.otpDao.check(userFromDb.get().getMobileNumber(), otpPayload.getType());
 			} else if (otpPayload.getType().equalsIgnoreCase(Constants.MOBILE_AUTHENTICATION_USECASE)) {
-				mobileNo = otpPayload.getMobileNo();
-				otpOptional = this.otpDao.check(otpPayload.getMobileNo(), otpPayload.getType());
+				mobileNo = otpPayload.getId();
+				otpOptional = this.otpDao.check(otpPayload.getId(), otpPayload.getType());
 			}
 
 			if (otpOptional.isPresent()) {

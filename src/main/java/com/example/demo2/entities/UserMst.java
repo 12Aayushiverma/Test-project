@@ -180,6 +180,24 @@ public class UserMst {
 	}
 
 
+	public UserMst(int id, String name, String firstName, String lastName, String mobileNumber, String email,
+			double height, double weight, char gender, int age, String password, String role) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.mobileNumber = mobileNumber;
+		this.email = email;
+		this.height = height;
+		this.weight = weight;
+		this.gender = gender;
+		this.age = age;
+		this.password = password;
+		this.role = role;
+	}
+
+
 
 
 

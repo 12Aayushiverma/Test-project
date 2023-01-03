@@ -129,6 +129,10 @@ public class UserPayload {
 			this.age = age;
 			this.id = id;
 		}
+
+		public UserPayload() {
+			// TODO Auto-generated constructor stub
+		}
         
 
 }

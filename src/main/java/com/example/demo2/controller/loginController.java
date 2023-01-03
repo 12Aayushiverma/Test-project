@@ -14,27 +14,23 @@ import com.example.demo2.model.response.CommonResoponse;
 import com.example.demo2.service.LoginService;
 import com.example.demo2.utils.HelperClass;
 
-
 @RestController
 public class loginController<T> {
 
-	
 	@Autowired
 	private LoginService<T> loginService;
-	
 
-	
 	private final static Logger log = LoggerFactory.getLogger(loginController.class);
-	
+
 	@PostMapping("/login")
-	public ResponseEntity<T> login(@RequestBody LoginPayload loginPayload){
+	public ResponseEntity<T> login(@RequestBody LoginPayload loginPayload) {
 		log.info("loginController::login===START ");
 		CommonResoponse cmn = new CommonResoponse();
+
 		try {
 
-			
-			if(loginPayload== null || loginPayload.getCaptchaCode()== null || loginPayload.getCaptchaId()== null ||
-					loginPayload.getUsername()== null || loginPayload.getPassword() == null) {
+			if (loginPayload == null || loginPayload.getCaptchaCode() == null || loginPayload.getCaptchaId() == null
+					|| loginPayload.getUsername() == null || loginPayload.getPassword() == null) {
 				log.error("loginController::login::ERROR= Invalid request");
 				cmn = HelperClass.getNullRequestResoponse();
 				log.error("loginController::login::ERROR= {}", cmn);
@@ -51,6 +47,6 @@ public class loginController<T> {
 			cmn = HelperClass.getCommonExceptionResoponse();
 			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body((T) cmn);
 		}
-		
+
 	}
 }
