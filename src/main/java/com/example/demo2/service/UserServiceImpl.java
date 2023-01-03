@@ -36,8 +36,7 @@ public class UserServiceImpl<T> implements UserService {
 	@Autowired
 	private ProfileImgRepository imgRepository;
 
-	@Autowired
-	private MailService mailService;
+
 
 	private final static Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -88,7 +87,7 @@ public class UserServiceImpl<T> implements UserService {
 			MailRequestDto mailReq = new MailRequestDto();
 			mailReq.setReceiverAddress(userPayload.getEmail());
 
-//			this.mailService.sendMail(mailReq, user.getEmail(), user.getPassword());
+			MailService.sendMail(mailReq, user.getEmail(), user.getPassword());
 			cmn.setMessage(Messages.SUCCESS_MSG);
 			cmn.setStatusCode(Constants.SUCCESS_CD);
 			log.info("UserServiceImpl::addUser()=== END");

@@ -14,15 +14,12 @@ import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
 import javax.mail.internet.*;
 
-@Service
 public class MailService {
 
-	private static String username = "testportal073@mail.com";
-
-//	@Value("${spring.eMailSenderCrediationals.password}")
+	private static String username = "testportal073@gmail.com";
 	private static String password = "gzhexshvsmabvvqi";
 
-	private final static Logger log = LoggerFactory.getLogger(loginController.class);
+	private final static Logger log = LoggerFactory.getLogger(MailService.class);
 
 	public static Session connectionToSmtp() {
 
@@ -42,7 +39,7 @@ public class MailService {
 		});
 	}
 
-	public void sendMail(MailRequestDto mailRequestDto, String username , String password) {
+	public static void sendMail(MailRequestDto mailRequestDto, String username , String password) {
 		try {
 
 			Message message = new MimeMessage(connectionToSmtp());
@@ -50,11 +47,11 @@ public class MailService {
 			message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(mailRequestDto.getReceiverAddress()));
 
 			message.setSubject("Credentials");
-			message.setText("your username = "+username + "and password = "+password);
+			message.setText("your username = "+username + " and password = "+password);
 			Transport.send(message);
 
 		} catch (Exception e) {
-			
+			e.printStackTrace();
 		}
 
 	}
